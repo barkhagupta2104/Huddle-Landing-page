@@ -4,24 +4,27 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                // Check out the code from your GitHub repository
-                checkout([$class: 'GitSCM', 
-                    branches: [[name: 'main']], 
-                    doGenerateSubmoduleConfigurations: false, 
-                    extensions: [], 
-                    submoduleCfg: [], 
-                    userRemoteConfigs: [[url: 'https://github.com/barkhagupta2104/Huddle-Landing-page.git']]
-                ])
+                // Checkout your Git repository
+                checkout([$class: 'GitSCM', branches: [[name: '*/main']], userRemoteConfigs: [[url: 'https://github.com/barkhagupta2104/Huddle-Landing-page.git']]])
             }
         }
 
-        stage('Deploy to Apache') {
+        stage('Copy Files') {
             steps {
-                // Copy the code to the Apache document root directory
-                bat script: '''
-                    xcopy /s /e /y "C:\Users\acer\Desktop\huddle-landing-page-with-single-introductory-section-master.github.io" "C:\\Apache24\\htdocs"
-                '''
+                // Use the bat step to run xcopy
+                bat(script: 'xcopy /s /e /y "C:\\Users\\acer\\Desktop\\huddle-landing-page-with-single-introductory-section-master.github.io" "C:\\Apache24\\htdocs"')
             }
+        }
+
+        // Add more stages as needed for your pipeline
+    }
+
+    post {
+        success {
+            // Add post-build actions on success
+        }
+        failure {
+            // Add post-build actions on failure
         }
     }
 }
