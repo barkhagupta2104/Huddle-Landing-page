@@ -21,10 +21,12 @@ pipeline {
 
     post {
         success {
-            // Add post-build actions on success
+            // Define steps to execute on success
+            echo 'The build was successful!'
         }
         failure {
-            // Add post-build actions on failure
+            // Define steps to execute on failure
+            echo 'The build failed!'
         }
     }
 }
